@@ -1,1 +1,1 @@
-# 12128848.github.io_posts/2026‑09‑07‑test‑article.md
+# 12128848.github.io
