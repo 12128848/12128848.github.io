@@ -8,7 +8,7 @@
 
 <a href="https://12128848.github.io">🌐 访问个人博客</a> • <a href="#writeup">📝 Writeup合集</a>
 
-![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=12128848.12128848.github.io)
+
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
 
@@ -25,7 +25,7 @@
 <img src="https://img.shields.io/badge/-Linux-black?style=for-the-badge&logo=linux&logoColor=white"/>
 <img src="https://img.shields.io/badge/-Web安全-0099cc?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/-MISC隐写-845EC2?style=for-the-badge"/>
-<img src="https="img.shields.io/badge/-密码学-C0392B?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/-密码学-C0392B?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/-Wireshark-1679D2?style=for-the-badge&logo=wireshark&logoColor=white"/>
 
 </div>
