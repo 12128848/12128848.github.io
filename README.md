@@ -1,4 +1,4 @@
-<div style="background:#1c1629; padding:30px; border-radius:16px;">
+<div style="background:#241c38; padding:30px; border-radius:16px;">
 <div align="center">
 
 
@@ -8,7 +8,7 @@
 
 <a href="https://12128848.github.io">🌐 访问个人博客</a> • <a href="#writeup">📝 Writeup合集</a>
 
-
+![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=12128848.12128848.github.io)
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
 
