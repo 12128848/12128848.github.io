@@ -1,24 +1,12 @@
 <div style="background:#f0f4f8; padding:30px; border-radius:16px;">
 <div align="center">
 
-
-
 # 👨‍💻 12128848
 ### Information Security Student | CTF Player
 
 <a href="https://12128848.github.io">🌐 访问个人博客</a> • <a href="#writeup">📝 Writeup合集</a>
 
-
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
-
-
-
-
-<!-- GitHub提交热力图 -->
-
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
+![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=12128848.12128848.github.io)
 
 ### 🛠️ 技术栈
 <img src="https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
@@ -30,8 +18,6 @@
 
 </div>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
-
 <details>
 <summary>📂 Writeup 分类（点击展开）</summary>
 
@@ -41,8 +27,6 @@
 
 > 所有题解都放在 `_posts` 文件夹，持续更新
 </details>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
 
 ## 📌 仓库介绍
 > 仓库存放Bugku CTF刷题Writeup，持续更新WEB / Crypto / MISC 各类题解，记录信息安全学习过程。
@@ -54,8 +38,6 @@
 - 使用Jekyll搭建，用于发布CTF学习笔记
 - 文章按时间归档，支持标签检索
 </details>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/wave.png">
 
 <div align="center">
 
