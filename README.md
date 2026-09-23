@@ -1,4 +1,4 @@
-<div style="background:#323f52; padding:30px; border-radius:16px;">
+<div style="background:#f0f4f8; padding:30px; border-radius:16px;">
 <div align="center">
 
 
@@ -25,7 +25,7 @@
 <img src="https://img.shields.io/badge/-Linux-black?style=for-the-badge&logo=linux&logoColor=white"/>
 <img src="https://img.shields.io/badge/-Web安全-0099cc?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/-MISC隐写-845EC2?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/-密码学-C0392B?style=for-the-badge"/>
+<img src="https="img.shields.io/badge/-密码学-C0392B?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/-Wireshark-1679D2?style=for-the-badge&logo=wireshark&logoColor=white"/>
 
 </div>
@@ -60,7 +60,7 @@
 <div align="center">
 
 ### 📎 快速链接
-[![Blog](https://img.shields.io/badge/Blog-个人博客-39c5bb?style=flat-square)](https://12128848.github.io)
+[![Blog](https://img.shields.io/badge/Blog-个人博客-007791?style=flat-square)](https://12128848.github.io)
 [![Bugku](https://img.shields.io/badge/Bugku-CTF靶场-orange?style=flat-square)](https://bugku.com)
 
 </div>
