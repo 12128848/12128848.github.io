@@ -24,18 +24,6 @@
 
 <br>
 
-<div style="font-size:18px; font-weight:bold;">📖 仓库介绍</div>
-<p style="margin:8px 0; color:#333;">用于存放 Bugku CTF 刷题 Writeup，记录信息安全学习笔记。</p>
-
-<details>
-<summary style="cursor:pointer; font-weight:bold;">📂 目录说明</summary>
-
-- `_posts/`：CTF 题解文章
-
-</details>
-
-<br>
-
 <div align="center">
 <div style="font-size:18px; font-weight:bold; margin-bottom:10px;">🔗 链接</div>
 
