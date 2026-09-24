@@ -29,8 +29,8 @@
 </details>
 
 ## 📌 仓库介绍
-> 仓库存放Bugku CTF刷题Writeup，持续更新WEB / Crypto / MISC 各类题解，记录信息安全学习过程。
-> 坚持刷题，沉淀技术，稳步提升安全能力。
+仓库存放Bugku CTF刷题Writeup，持续更新WEB / Crypto / MISC 各类题解，记录信息安全学习过程。
+坚持刷题，沉淀技术，稳步提升安全能力。
 
 <details>
 <summary>💡 关于博客</summary>
