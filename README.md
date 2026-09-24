@@ -4,9 +4,7 @@
 # 👨‍💻 12128848
 ### Information Security Student | CTF Player
 
-<a href="https://12128848.github.io">🌐 访问个人博客</a> • <a href="#writeup">📝 Writeup合集</a>
-
-![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=12128848.12128848.github.io)
+<a href="https://12128848.github.io">🌐 我的博客</a>
 
 ### 🛠️ 技术栈
 <img src="https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
@@ -18,32 +16,20 @@
 
 </div>
 
-<details>
-<summary>📂 Writeup 分类（点击展开）</summary>
-
-- Web 安全：`_posts/`
-- Crypto 密码学：`_posts/`
-- MISC 杂项/隐写/流量分析：`_posts/`
-
-> 所有题解都放在 `_posts` 文件夹，持续更新
-</details>
-
-## 📌 仓库介绍
-仓库存放Bugku CTF刷题Writeup，持续更新WEB / Crypto / MISC 各类题解，记录信息安全学习过程。
-坚持刷题，沉淀技术，稳步提升安全能力。
+## 📖 仓库介绍
+用于存放Bugku CTF刷题Writeup，记录信息安全学习笔记。
 
 <details>
-<summary>💡 关于博客</summary>
-- 博客地址：https://12128848.github.io
-- 使用Jekyll搭建，用于发布CTF学习笔记
-- 文章按时间归档，支持标签检索
+<summary>📂 目录说明</summary>
+
+- `_posts/`：CTF题解文章
 </details>
 
 <div align="center">
 
-### 📎 快速链接
-[![Blog](https://img.shields.io/badge/Blog-个人博客-007791?style=flat-square)](https://12128848.github.io)
-[![Bugku](https://img.shields.io/badge/Bugku-CTF靶场-orange?style=flat-square)](https://bugku.com)
+### 🔗 链接
+<a href="https://12128848.github.io"><img src="https://img.shields.io/badge/博客-12128848.github.io-007791?style=flat-square"></a>
+<a href="https://bugku.com"><img src="https://img.shields.io/badge/Bugku靶场-orange?style=flat-square"></a>
 
 </div>
 </div>
