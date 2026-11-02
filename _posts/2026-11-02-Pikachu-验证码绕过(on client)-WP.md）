@@ -1,0 +1,36 @@
+# Writeup：Pikachu 验证码绕过(on client)
+## 题目信息
+靶场：Pikachu
+漏洞模块：暴力破解 -> 验证码绕过(on client)
+地址：http://127.0.0.1:8081/vul/burteforce/bf_client.php
+
+## 解题思路
+验证码仅通过前端JavaScript校验，后端没有对vcode参数做校验。抓包删除验证码参数，即可绕过验证码限制，对账号密码进行爆破。
+
+## 复现步骤
+1. 访问页面，表单包含Username、Password、验证码输入框。
+2. Burp Suite配置代理抓登录POST数据包，数据包内包含 username、password、vcode 三个参数。
+3. 修改数据包，**直接删除vcode参数**，再发送到Intruder。
+4. Positions设置：Clear §，为username、password添加标记，攻击类型选择Cluster bomb。
+5. 配置Payload字典：
+    - Payload Set1（用户名）：admin、pikachu、test
+    - Payload Set2（密码）：123456、000000、abc123
+6. 启动爆破，对比响应长度，成功请求返回 login success。
+
+> 有效凭据：
+> admin / 123456
+> pikachu / 000000
+> test / abc123
+
+## 漏洞原理
+验证码校验逻辑放在前端JS，只是用来限制页面正常提交，后端没有校验验证码。攻击者抓包删参，就能绕过验证码防护，继续暴力破解。
+
+## 修复建议
+1. 验证码校验逻辑必须放到服务端，不能只依靠前端JS；
+2. 验证码校验成功后立即销毁session，保证一次性有效；
+3. 添加登录失败锁定、限流策略。
+
+## 学习总结
+on client 和 on server 的区别：
+- on client：前端JS校验 → 抓包删vcode参数绕过
+- on server：后端校验，但验证码可复用 → 抓包固定vcode爆破
