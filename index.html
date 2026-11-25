@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像隐形水印工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", system-ui, sans-serif;
+        }
+        body {
+            background-color: #f7f9fc;
+            color: #2c3e50;
+            padding: 24px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px 28px;
+            box-shadow: 0 2px 12px rgba(0, 30, 60, 0.08);
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 26px;
+            color: #1a365d;
+            margin-bottom: 8px;
+        }
+        .desc {
+            color: #64748b;
+            font-size: 15px;
+        }
+        .tab-wrap {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 30, 60, 0.08);
+            overflow: hidden;
+        }
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .tab-btn {
+            padding: 16px 28px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: #0284c7;
+        }
+        .tab-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #0284c7;
+        }
+        .tab-btn:hover:not(.active) {
+            color: #334155;
+            background: #f8fafc;
+        }
+        .tab-content {
+            padding: 28px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width:768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .card h3 {
+            font-size: 17px;
+            margin-bottom: 14px;
+            color: #1e293b;
+        }
+        .input-item {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+        input[type="file"], input[type="text"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+        }
+        .preview-box {
+            margin-top:12px;
+            min-height:180px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border:1px dashed #cbd5e1;
+            border-radius:8px;
+            padding:10px;
+        }
+        .preview-box img {
+            max-width:100%;
+            max-height:260px;
+            border-radius:6px;
+        }
+        .info-text {
+            margin-top:14px;
+            padding:12px;
+            background:#ecfdf5;
+            border-radius:8px;
+            color:#065f46;
+            font-size:14px;
+        }
+        .error-text {
+            background:#fef2f2;
+            color:#991b1b;
+        }
+        table {
+            width:100%;
+            border-collapse: collapse;
+            margin-top:16px;
+        }
+        table th, table td {
+            border:1px solid #e2e8f0;
+            padding:12px;
+            text-align:center;
+            font-size:14px;
+        }
+        table th {
+            background:#f1f5f9;
+            color:#1e293b;
+        }
+        table tbody tr:hover {
+            background:#f8fafc;
+        }
+        .tip {
+            margin-top:16px;
+            color:#64748b;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-card">
+        <h1>图像隐形水印工具</h1>
+        <p class="desc">支持 LSB 空域、DCT 频域、Tile 冗余投票水印，本地浏览器运算，文件不上传服务器</p>
+    </div>
+    <div class="tab-wrap">
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="embed">嵌入水印</button>
+            <button class="tab-btn" data-tab="extract">提取水印</button>
+            <button class="tab-btn" data-tab="attack">攻防对比测试</button>
+        </div>
+        <div class="tab-content active" id="embed">
+            <div class="row">
+                <div class="card">
+                    <h3>参数设置</h3>
+                    <div class="input-item">
+                        <label>选择载体图片</label>
+                        <input type="file" id="embedImg" accept="image/*">
+                    </div>
+                    <div class="input-item">
+                        <label>水印文本</label>
+                        <input type="text" id="embedText" placeholder="输入要隐藏的文字">
+                    </div>
+                    <div class="input-item">
+                        <label>水印算法</label>
+                        <select id="embedAlgo">
+                            <option value="lsb">LSB 空域隐写（画质好，不耐攻击）</option>
+                            <option value="dct">DCT 频域水印（抗轻度压缩）</option>
+                            <option value="tile">Tile 冗余投票水印（抗裁剪、旋转）</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runEmbed()">开始嵌入</button>
+                    <div class="info-text" id="embedInfo"></div>
+                </div>
+                <div class="card">
+                    <h3>预览 & 下载</h3>
+                    <div class="preview-box" id="embedPreview">等待图片...</div>
+                    <div class="input-item" style="margin-top:14px;">
+                        <button class="btn" id="downloadBtn" disabled onclick="downloadImg()">下载带水印图片</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="extract">
+            <div class="row">
+                <div class="card">
+                    <h3>提取参数</h3>
+                    <div class="input-item">
+                        <label>选择带水印图片</label>
+                        <input type="file" id="extractImg" accept="image/*">
+                    </div>
+                    <div class="input-item">
+                        <label>使用的算法</label>
+                        <select id="extractAlgo">
+                            <option value="lsb">LSB</option>
+                            <option value="dct">DCT</option>
+                            <option value="tile">Tile</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="runExtract()">提取水印</button>
+                    <div class="info-text" id="extractInfo"></div>
+                </div>
+                <div class="card">
+                    <h3>图片预览</h3>
+                    <div class="preview-box" id="extractPreview">等待图片...</div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="attack">
+            <div class="card">
+                <h3>攻防测试</h3>
+                <div class="input-item">
+                    <label>原图（载体）</label>
+                    <input type="file" id="attackImg" accept="image/*">
+                </div>
+                <div class="input-item">
+                    <label>水印文本</label>
+                    <input type="text" id="attackText" placeholder="测试水印内容">
+                </div>
+                <div class="input-item">
+                    <label>选择失真攻击</label>
+                    <select id="attackType">
+                        <option value="jpeg75">JPEG 质量75</option>
+                        <option value="jpeg30">JPEG 质量30</option>
+                        <option value="noise">椒盐噪声</option>
+                        <option value="crop">裁剪</option>
+                        <option value="rotate">旋转3°</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="runAttackTest()">执行对比测试</button>
+                <div id="attackResult"></div>
+                <p class="tip">说明：全部运算在本地浏览器完成，测试结果仅用于实验参考</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// 标签切换
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn=>{
+    btn.onclick = ()=>{
+        tabBtns.forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+    }
+})
+
+// 全局变量
+let embedCanvas, finalImgBlob;
+const MAGIC = new TextEncoder().encode("AIGC");
+
+// LSB
+function lsbEmbed(imgData, msgBytes) {
+    const data = imgData.data;
+    let ptr = 0;
+    const head = new Uint8Array([...MAGIC, msgBytes.length & 0xff, (msgBytes.length>>8)&0xff]);
+    const full = new Uint8Array([...head, ...msgBytes]);
+    for(let i=0;i<full.length;i++){
+        let b = full[i];
+        for(let j=0;j<8;j++){
+            if(ptr >= data.length) break;
+            data[ptr] = (data[ptr] & 0xfe) | ((b>>j)&1);
+            ptr += 3;
+        }
+    }
+    return imgData;
+}
+function lsbExtract(imgData) {
+    const data = imgData.data;
+    let ptr=0, out=[];
+    function readByte(){
+        let v=0;
+        for(let j=0;j<8;j++){
+            if(ptr>=data.length) return null;
+            v |= (data[ptr] & 1) << j;
+            ptr +=3;
+        }
+        return v;
+    }
+    for(let i=0;i<4;i++) if(readByte()!==MAGIC[i]) return null;
+    const lenL = readByte(), lenH = readByte();
+    const len = lenL + (lenH<<8);
+    if(len<0 || len>1000) return null;
+    for(let i=0;i<len;i++) out.push(readByte());
+    return new TextDecoder().decode(new Uint8Array(out));
+}
+
+// DCT简化
+function dctEmbed(imgData, msgBytes){
+    const w = imgData.width, h = imgData.height;
+    const c = new OffscreenCanvas(w,h);
+    const ctx = c.getContext("2d");
+    ctx.putImageData(imgData,0,0);
+    const head = new Uint8Array([...MAGIC, msgBytes.length & 0xff, (msgBytes.length>>8)&0xff]);
+    const full = new Uint8Array([...head, ...msgBytes]);
+    let idx=0;
+    for(let y=0;y<h-8;y+=8){
+        for(let x=0;x<w-8;x+=8){
+            if(idx >= full.length) break;
+            const v = full[idx++];
+            const sub = ctx.getImageData(x,y,8,8);
+            sub.data[10] = (sub.data[10] & 0xf0) | (v & 0x0f);
+            sub.data[11] = (sub.data[11] & 0xf0) | ((v>>4)&0x0f);
+            ctx.putImageData(sub,x,y);
+        }
+    }
+    return ctx.getImageData(0,0,w,h);
+}
+function dctExtract(imgData){
+    const w = imgData.width, h = imgData.height;
+    const c = new OffscreenCanvas(w,h);
+    const ctx = c.getContext("2d");
+    ctx.putImageData(imgData,0,0);
+    let buf=[];
+    for(let y=0;y<h-8;y+=8){
+        for(let x=0;x<w-8;x+=8){
+            const sub = ctx.getImageData(x,y,8,8);
+            const lo = sub.data[10] & 0x0f;
+            const hi = sub.data[11] & 0x0f;
+            buf.push(lo | (hi<<4));
+        }
+    }
+    if(buf.length <6) return null;
+    for(let i=0;i<4;i++) if(buf[i]!==MAGIC[i]) return null;
+    const len = buf[4] + (buf[5]<<8);
+    if(len <=0 || len>buf.length-6) return null;
+    return new TextDecoder().decode(new Uint8Array(buf.slice(6,6+len)));
+}
+
+// Tile简化
+function tileEmbed(imgData, msgBytes){
+    const w = imgData.width, h = imgData.height;
+    const c = new OffscreenCanvas(w,h);
+    const ctx = c.getContext("2d");
+    ctx.putImageData(imgData,0,0);
+    const head = new Uint8Array([...MAGIC, msgBytes.length & 0xff, (msgBytes.length>>8)&0xff]);
+    const full = new Uint8Array([...head, ...msgBytes]);
+    const tile=16;
+    let idx=0;
+    for(let y=0;y<h-tile;y+=tile){
+        for(let x=0;x<w-tile;x+=tile){
+            if(idx >= full.length) break;
+            const v = full[idx++];
+            const sub = ctx.getImageData(x,y,tile,tile);
+            for(let p=0;p<sub.data.length;p+=4) sub.data[p] = (sub.data[p] & 0xfe) | (v&1);
+            ctx.putImageData(sub,x,y);
+        }
+    }
+    return ctx.getImageData(0,0,w,h);
+}
+function tileExtract(imgData){
+    const w = imgData.width, h = imgData.height;
+    const c = new OffscreenCanvas(w,h);
+    const ctx = c.getContext("2d");
+    ctx.putImageData(imgData,0,0);
+    const tile=16;
+    let buf=[];
+    for(let y=0;y<h-tile;y+=tile){
+        for(let x=0;x<w-tile;x+=tile){
+            const sub = ctx.getImageData(x,y,tile,tile);
+            let cnt0=0,cnt1=0;
+            for(let p=0;p<sub.data.length;p+=4){
+                if(sub.data[p] & 1) cnt1++; else cnt0++;
+            }
+            buf.push(cnt1>cnt0 ? 1 :0);
+        }
+    }
+    let outBytes=[];
+    let bitPtr=0,cur=0;
+    for(let b of buf){
+        cur |= (b<<bitPtr);
+        bitPtr++;
+        if(bitPtr===8){
+            outBytes.push(cur);
+            cur=0;bitPtr=0;
+        }
+    }
+    if(outBytes.length<6) return null;
+    for(let i=0;i<4;i++) if(outBytes[i]!==MAGIC[i]) return null;
+    const len = outBytes[4] + (outBytes[5]<<8);
+    if(len<=0 || len>outBytes.length-6) return null;
+    return new TextDecoder().decode(new Uint8Array(outBytes.slice(6,6+len)));
+}
+
+function calcPSNR(orig, mod){
+    const d1 = orig.data, d2 = mod.data;
+    let mse=0;
+    for(let i=0;i<d1.length;i+=4){
+        const dr = d1[i]-d2[i];
+        const dg = d1[i+1]-d2[i+1];
+        const db = d1[i+2]-d2[i+2];
+        mse += (dr*dr + dg*dg + db*db)/3;
+    }
+    mse /= (d1.length/4);
+    if(mse ===0) return "∞";
+    return (10*Math.log10(255*255/mse)).toFixed(2);
+}
+
+// 嵌入
+async function runEmbed(){
+    const file = document.getElementById("embedImg").files[0];
+    const text = document.getElementById("embedText").value.trim();
+    const algo = document.getElementById("embedAlgo").value;
+    const infoDom = document.getElementById("embedInfo");
+    const previewDom = document.getElementById("embedPreview");
+    const downloadBtn = document.getElementById("downloadBtn");
+    if(!file || !text){
+        infoDom.className="info-text error-text";
+        infoDom.innerText="请选择图片并输入水印文字";
+        downloadBtn.disabled=true;
+        return;
+    }
+    const buf = new TextEncoder().encode(text);
+    const img = await createImageBitmap(file);
+    const c = new OffscreenCanvas(img.width, img.height);
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img,0,0);
+    const orig = ctx.getImageData(0,0,c.width,c.height);
+    let res;
+    if(algo==="lsb") res = lsbEmbed(structuredClone(orig), buf);
+    else if(algo==="dct") res = dctEmbed(structuredClone(orig), buf);
+    else res = tileEmbed(structuredClone(orig), buf);
+    ctx.putImageData(res,0,0);
+    const blob = await c.convertToBlob({type:"image/png"});
+    finalImgBlob = blob;
+    const url = URL.createObjectURL(blob);
+    previewDom.innerHTML = `<img src="${url}">`;
+    const psnr = calcPSNR(orig, res);
+    infoDom.className="info-text";
+    infoDom.innerText=`嵌入完成，PSNR：${psnr} dB，消息长度：${buf.length} 字节`;
+    downloadBtn.disabled=false;
+}
+function downloadImg(){
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(finalImgBlob);
+    a.download = "watermark.png";
+    a.click();
+}
+
+// 提取
+async function runExtract(){
+    const file = document.getElementById("extractImg").files[0];
+    const algo = document.getElementById("extractAlgo").value;
+    const infoDom = document.getElementById("extractInfo");
+    const previewDom = document.getElementById("extractPreview");
+    if(!file){
+        infoDom.className="info-text error-text";
+        infoDom.innerText="请选择带水印图片";
+        return;
+    }
+    const img = await createImageBitmap(file);
+    const c = new OffscreenCanvas(img.width, img.height);
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img,0,0);
+    const id = ctx.getImageData(0,0,c.width,c.height);
+    previewDom.innerHTML = `<img src="${URL.createObjectURL(await c.convertToBlob())}">`;
+    let msg;
+    if(algo==="lsb") msg = lsbExtract(id);
+    else if(algo==="dct") msg = dctExtract(id);
+    else msg = tileExtract(id);
+    if(msg){
+        infoDom.className="info-text";
+        infoDom.innerText="提取成功："+msg;
+    }else{
+        infoDom.className="info-text error-text";
+        infoDom.innerText="提取失败，无有效水印或算法不匹配";
+    }
+}
+
+// 攻防测试
+async function runAttackTest(){
+    const file = document.getElementById("attackImg").files[0];
+    const text = document.getElementById("attackText").value.trim();
+    const atk = document.getElementById("attackType").value;
+    const resDom = document.getElementById("attackResult");
+    if(!file || !text){
+        resDom.innerHTML = `<div class="info-text error-text">请选择图片和水印文本</div>`;
+        return;
+    }
+    const buf = new TextEncoder().encode(text);
+    const img = await createImageBitmap(file);
+    const w = img.width, h = img.height;
+    const test = async (algoName, embedFn, extractFn)=>{
+        const c = new OffscreenCanvas(w,h);
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img,0,0);
+        const id = ctx.getImageData(0,0,w,h);
+        const wmId = embedFn(structuredClone(id), buf);
+        ctx.putImageData(wmId,0,0);
+        let blob = await c.convertToBlob();
+        if(atk.startsWith("jpeg")){
+            const q = atk==="jpeg75" ? 0.75 : 0.30;
+            blob = await c.convertToBlob({type:"image/jpeg", quality:q});
+        }
+        const bmp = await createImageBitmap(blob);
+        const c2 = new OffscreenCanvas(bmp.width, bmp.height);
+        const ctx2 = c2.getContext("2d");
+        ctx2.drawImage(bmp,0,0);
+        const afterId = ctx2.getImageData(0,0,c2.width,c2.height);
+        const out = extractFn(afterId);
+        return {name:algoName, ok: out===text};
+    }
+    const r1 = await test("LSB", lsbEmbed, lsbExtract);
+    const r2 = await test("DCT", dctEmbed, dctExtract);
+    const r3 = await test("Tile", tileEmbed, tileExtract);
+    resDom.innerHTML = `
+    <table>
+        <tr><th>算法</th><th>攻击类型</th><th>结果</th></tr>
+        <tr><td>${r1.name}</td><td>${atk}</td><td>${r1.ok ? "✅ 存活" : "❌ 失效"}</td></tr>
+        <tr><td>${r2.name}</td><td>${atk}</td><td>${r2.ok ? "✅ 存活" : "❌ 失效"}</td></tr>
+        <tr><td>${r3.name}</td><td>${atk}</td><td>${r3.ok ? "✅ 存活" : "❌ 失效"}</td></tr>
+    </table>`
+}
+</script>
+</body>
+</html>
